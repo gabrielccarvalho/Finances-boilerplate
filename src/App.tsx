@@ -51,7 +51,7 @@ export function App() {
               <Award className='w-5 h-5 text-yellow-500 text-muted-foreground' />
             </div>
             <p className='font-sans text-2xl font-bold'>R$ 6.529,22</p>
-            <span className='text-xs text-muted-foreground'>+04.5% from last month</span>
+            <span className='text-xs text-muted-foreground'>+4.5% from last month</span>
           </div>
 
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>

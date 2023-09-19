@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table"
-import { AlertCircle, AlertTriangle, CheckCheck, MoreHorizontal } from "lucide-react"
+import { AlertCircle, AlertTriangle, CheckCheck, MoreHorizontal, Trash, RefreshCcw } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
 
@@ -89,7 +89,7 @@ export const columns: ColumnDef<Payment>[] = [
       const amount = parseFloat(row.getValue("amount"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD",
+        currency: "BRL",
       }).format(amount)
       return <div className="font-medium">{formatted}</div>
     },
@@ -128,8 +128,14 @@ export const columns: ColumnDef<Payment>[] = [
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem className='focus:text-primary'>
+              <RefreshCcw className="w-4 h-4 mr-2" />
+              Update Status
+            </DropdownMenuItem>
+            <DropdownMenuItem className='focus:text-red-500'>
+              <Trash className="w-4 h-4 mr-2" />
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
