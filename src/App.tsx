@@ -5,21 +5,13 @@ import { Separator } from '@/components/ui/separator';
 import { Moon, Sun, Award, ArrowDown, ArrowUp } from 'lucide-react'
 import { Transactions } from './components/payments/table-component';
 import { User } from './lib/types';
-import { useEffect, useState } from 'react';
-import { getUserInfo, updateUserBalance, updateUserExpenses } from './api/user';
+import { getUserInfo } from './api/user';
 import { formatCurrency } from './lib/format-currency';
+
+const userInfo: User = await getUserInfo()
 
 export function App() {
   const { setTheme, theme } = useTheme()
-  const [userInfo, setUserInfo] = useState<User | null>(null)
-  const [expenses, setExpenses] = useState<number>(0)
-  const [balance, setBalance] = useState<number>(0)
-
-  useEffect(() => {
-    updateUserExpenses(setExpenses)
-    updateUserBalance(setBalance)
-    getUserInfo(setUserInfo)
-  }, [])
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -43,7 +35,7 @@ export function App() {
         <div className='flex flex-col w-full shadow-md bg-muted'>
           <div className='flex flex-col justify-between w-full h-32 p-6 mx-auto max-w-7xl'>
             <h3 className='text-sm text-muted-foreground'>Balance</h3>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(balance)}</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.balance)}</p>
             <span className='text-xs text-muted-foreground'>+12.5% from last month</span>
           </div>
         </div>
@@ -72,7 +64,7 @@ export function App() {
               <h3 className='text-sm text-muted-foreground'>Expenses</h3>
               <ArrowUp className='w-5 h-5 text-red-500' />
             </div>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(expenses)}</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.expenses)}</p>
             <span className='text-xs text-muted-foreground'>-12.5% from last month</span>
           </div>
         </div>

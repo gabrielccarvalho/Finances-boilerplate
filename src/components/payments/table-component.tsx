@@ -5,12 +5,9 @@ import { DataTable } from "./data-table"
 import { Bill } from '@/lib/types'
 import { getBills } from '@/api/bills'
 
-export function Transactions() {
-  const [bills, setBills] = useState<Bill[] | null>(null)
+const bills = await getBills()
 
-  useEffect(() => {
-    getBills(setBills)
-  }, [])
+export function Transactions() {
 
   return (
     <div className="container mx-auto max-w-7xl">
