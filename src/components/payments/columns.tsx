@@ -14,16 +14,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DataTableColumnHeader } from './column-header'
 
+import { Bill } from "@/lib/types"
 
-export type Payment = {
-  id: string
-  amount: number
-  status: 1 | 2 | 3 // 1 = late, 2 = pending, 3 = paid
-  origin: string
-  date: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Bill>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -44,9 +37,9 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "origin",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Origin" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
   },
   {

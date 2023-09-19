@@ -4,9 +4,18 @@ import { Separator } from '@/components/ui/separator';
 
 import { Moon, Sun, Award, ArrowDown, ArrowUp } from 'lucide-react'
 import { Transactions } from './components/payments/table-component';
+import { User } from './lib/types';
+import { useEffect, useState } from 'react';
+import { getUserInfo } from './api/user';
+import { formatCurrency } from './lib/format-currency';
 
 export function App() {
   const { setTheme, theme } = useTheme()
+  const [userInfo, setUserInfo] = useState<User | null>(null)
+
+  useEffect(() => {
+    getUserInfo(setUserInfo)
+  }, [])
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -30,7 +39,7 @@ export function App() {
         <div className='flex flex-col w-full shadow-md bg-muted'>
           <div className='flex flex-col justify-between w-full h-32 p-6 mx-auto max-w-7xl'>
             <h3 className='text-sm text-muted-foreground'>Balance</h3>
-            <p className='font-sans text-2xl font-bold'>R$ 36.941,28</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.balance)}</p>
             <span className='text-xs text-muted-foreground'>+12.5% from last month</span>
           </div>
         </div>
@@ -39,27 +48,27 @@ export function App() {
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
               <div className='flex flex-row justify-between'>
                 <h3 className='text-sm text-muted-foreground'>Income</h3>
-                <ArrowDown className='w-5 h-5 text-muted-foreground text-emerald-500' />
+                <ArrowDown className='w-5 h-5 text-emerald-500' />
               </div>
-              <p className='font-sans text-2xl font-bold'>R$ 12.058,44</p>
+              <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.income)}</p>
               <span className='text-xs text-muted-foreground'>+0.5% from last month</span>
           </div>
 
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
             <div className='flex flex-row justify-between'>
               <h3 className='text-sm text-muted-foreground'>Invested</h3>
-              <Award className='w-5 h-5 text-yellow-500 text-muted-foreground' />
+              <Award className='w-5 h-5 text-yellow-500' />
             </div>
-            <p className='font-sans text-2xl font-bold'>R$ 6.529,22</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.invested)}</p>
             <span className='text-xs text-muted-foreground'>+4.5% from last month</span>
           </div>
 
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
             <div className='flex flex-row justify-between'>
               <h3 className='text-sm text-muted-foreground'>Expenses</h3>
-              <ArrowUp className='w-5 h-5 text-red-500 text-muted-foreground' />
+              <ArrowUp className='w-5 h-5 text-red-500' />
             </div>
-            <p className='font-sans text-2xl font-bold'>R$ 5.529,22</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.expenses)}</p>
             <span className='text-xs text-muted-foreground'>-12.5% from last month</span>
           </div>
         </div>
