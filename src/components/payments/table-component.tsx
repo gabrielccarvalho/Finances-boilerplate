@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
