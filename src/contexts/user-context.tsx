@@ -1,5 +1,4 @@
-import { getBills } from '@/api/bills';
-import { getUserInfo, updateUserBalance, updateUserExpenses } from '@/api/user';
+import { getUserInfo } from '@/api/user';
 import { User } from '@/lib/types';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -14,10 +13,6 @@ export function UserProvider ({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function fetchUserInfo() {
       const info = await getUserInfo()
-
-      info.bills = await getBills()
-      info.expenses = await updateUserExpenses()
-      info.balance = await updateUserBalance()
       
       setUser(info)
 

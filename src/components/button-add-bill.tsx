@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { addBill } from '@/api/bills'
 
 export function AddBill() {
   const [name, setName] = useState('')
@@ -28,12 +27,12 @@ export function AddBill() {
   const [status, setStatus] = useState(1)
 
   async function handleSubmit() {
-    addBill({
-      name,
-      amount,
-      date: new Date(date).toISOString(),
-      status
-    })
+    // addBill({
+    //   name,
+    //   amount,
+    //   date: new Date(date).toISOString(),
+    //   status
+    // })
   }
 
 

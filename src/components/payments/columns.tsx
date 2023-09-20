@@ -15,7 +15,6 @@ import {
 import { DataTableColumnHeader } from './column-header'
 
 import { Bill } from "@/lib/types"
-import { deleteBill } from '@/api/bills'
 
 export const columns: ColumnDef<Bill>[] = [
   {
@@ -107,7 +106,7 @@ export const columns: ColumnDef<Bill>[] = [
       const payment = row.original
 
       async function handleDelete() {
-        await deleteBill(payment.id)
+        // await deleteBill(payment.id)
       }
 
       return (
