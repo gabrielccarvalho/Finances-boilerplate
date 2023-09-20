@@ -21,7 +21,10 @@ export function App() {
   return (
     <div className='flex flex-col min-h-screen'>
       <div className='flex items-center justify-between px-6 py-3 border-b'>
-        <h1 className='text-xl font-bold'>Finances</h1>
+        <div className='flex flex-row'>
+          <PiggyBank className='mr-2 text-yellow-500 w-7 h-7 dark:text-muted-foreground' />
+          <h1 className='text-xl font-bold'>Finances</h1>
+        </div>
 
         <div className='flex items-center gap-3'>
           <span className='text-sm text-muted-foreground'>Made with 🤍 by Gabriel Carvalho.</span>
