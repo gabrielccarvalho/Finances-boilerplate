@@ -19,20 +19,41 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
+import { useUser } from '@/contexts/user-context'
+import { addBill } from '@/api/bills'
 
 export function AddBill() {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState(0)
   const [date, setDate] = useState('')
-  const [status, setStatus] = useState(1)
+  const [status, setStatus] = useState('Pending')
+  const { user, update } = useUser()
+
+  const parseStatus = (status: string) => {
+    switch (status) {
+      case 'Pending':
+        return 2
+      case 'Paid':
+        return 3
+      case 'Late':
+        return 1
+      default:
+        return 2
+    }
+  }
 
   async function handleSubmit() {
-    // addBill({
-    //   name,
-    //   amount,
-    //   date: new Date(date).toISOString(),
-    //   status
-    // })
+    const response = await addBill({
+      name,
+      amount,
+      date: new Date(date).toISOString(),
+      status: parseStatus(status)
+    })
+
+    update({
+      ...user,
+      bills: response
+    })
   }
 
 
@@ -46,12 +67,13 @@ export function AddBill() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add a new bill</DialogTitle>
-          <DialogDescription>
-            Add the informations below. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <DialogHeader>
+            <DialogTitle>Add a new bill</DialogTitle>
+            <DialogDescription>
+              Add the informations below. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="name" className="text-right">
@@ -94,14 +116,14 @@ export function AddBill() {
             <Label htmlFor="status" className="text-right">
                 status
               </Label>
-              <Select onValueChange={value => setStatus(parseInt(value))}>
+              <Select onValueChange={value => setStatus(value)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue id='status' defaultValue={status} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={1}>Pending</SelectItem>
-                  <SelectItem value={2}>Paid</SelectItem>
-                  <SelectItem value={3}>Late</SelectItem>
+                  <SelectItem value={'Pending'}>Pending</SelectItem>
+                  <SelectItem value={'Paid'}>Paid</SelectItem>
+                  <SelectItem value={'Late'}>Late</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -109,11 +131,11 @@ export function AddBill() {
           <DialogFooter>
             <Button
               type="submit"
-              onClick={handleSubmit}
             >
               Save changes
             </Button>
           </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   )

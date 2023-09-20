@@ -1,20 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table"
-import { AlertCircle, AlertTriangle, CheckCheck, MoreHorizontal, Trash, RefreshCcw } from "lucide-react"
+import { AlertCircle, AlertTriangle, CheckCheck } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { DataTableColumnHeader } from './column-header'
 
 import { Bill } from "@/lib/types"
+import { Actions } from './actions'
 
 export const columns: ColumnDef<Bill>[] = [
   {
@@ -105,39 +96,8 @@ export const columns: ColumnDef<Bill>[] = [
     cell: ({ row }) => {
       const payment = row.original
 
-      async function handleDelete() {
-        // await deleteBill(payment.id)
-      }
-
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center justify-end w-full h-8 p-2">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className='focus:text-primary'>
-              <RefreshCcw className="w-4 h-4 mr-2" />
-              Update Status
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleDelete}
-              className='focus:text-red-500'
-            >
-              <Trash className="w-4 h-4 mr-2" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Actions payment={payment} />
       )
     },
   },

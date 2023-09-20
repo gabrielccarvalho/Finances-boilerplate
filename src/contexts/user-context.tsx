@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const UserContext = createContext({
   user: {} as User,
-  update: (() => {}) as React.Dispatch<React.SetStateAction<User>>,
+  update: (() => {}) as (user: User) => void,
 })
 
 export function UserProvider ({ children }: { children: React.ReactNode }) {
@@ -12,7 +12,7 @@ export function UserProvider ({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     async function fetchUserInfo() {
-      const info = await getUserInfo()
+      const info: User = await getUserInfo()
       
       setUser(info)
 
@@ -22,8 +22,15 @@ export function UserProvider ({ children }: { children: React.ReactNode }) {
     fetchUserInfo()
   }, [])
 
+  function updateUser (user: User) {
+    setUser((currentUser) => ({
+      currentUser,
+      ...user
+    }))
+  }
+
   return (
-    <UserContext.Provider value={{ user, update: setUser }}>
+    <UserContext.Provider value={{ user, update: updateUser }}>
       {children}
     </UserContext.Provider>
   )
