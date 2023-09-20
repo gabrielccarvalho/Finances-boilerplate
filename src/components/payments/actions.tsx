@@ -1,4 +1,4 @@
-import { MoreHorizontal, Trash, RefreshCcw } from "lucide-react"
+import { MoreHorizontal, Trash, RefreshCcw, CheckCheck, AlertTriangle, AlertCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { deleteBill } from '@/api/bills'
+import { deleteBill, updateStatus } from '@/api/bills'
 import { useUser } from '@/contexts/user-context'
 import { Bill } from '@/lib/types'
 
@@ -28,6 +28,15 @@ export function Actions({ payment }: { payment: Bill }) {
     })
   }
 
+  async function handleUpdateStatus(status: string) {
+    const response = await updateStatus(payment.id, status)
+
+    update({
+      ...user,
+      bills: response
+    })
+  }
+
   return (
     <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -38,16 +47,31 @@ export function Actions({ payment }: { payment: Bill }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => handleUpdateStatus('paid')}
+              className='focus:text-emerald-500'
             >
-              Copy payment ID
+              <CheckCheck className="w-4 h-4 mr-2 text-emerald-500" />
+              Paid
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleUpdateStatus('pending')}
+              className='focus:text-yellow-500'
+            >
+              <AlertTriangle className="w-4 h-4 mr-2 text-yellow-500" />
+              Pending
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleUpdateStatus('late')}
+              className='focus:text-red-500'
+            >
+              <AlertCircle className="w-4 h-4 mr-2 text-red-500" />
+              Late
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className='focus:text-primary'>
-              <RefreshCcw className="w-4 h-4 mr-2" />
-              Update Status
-            </DropdownMenuItem>
+            <DropdownMenuLabel>Danger Area</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleDelete}
               className='focus:text-red-500'

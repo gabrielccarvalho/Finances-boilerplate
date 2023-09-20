@@ -6,6 +6,12 @@ export async function deleteBill(id: string) {
   })
 }
 
+export async function updateStatus(id: string, status: string) {
+  return api.put(`/bills/${id}/${status}`).then(response => {
+    return response.data
+  })
+}
+
 export async function addBill({
   name,
   amount,
