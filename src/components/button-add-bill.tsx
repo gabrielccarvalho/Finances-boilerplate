@@ -42,7 +42,9 @@ export function AddBill() {
     }
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
     const response = await addBill({
       name,
       amount,
