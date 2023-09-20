@@ -2,8 +2,15 @@ import { useTheme } from '@/components/theme-provider';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+
 import { Moon, Sun, ArrowDown, ArrowUp, PiggyBank } from 'lucide-react'
-import { Transactions } from './components/payments/table-component';
+import { Transactions } from './components/expenses-table/table-component';
 import { formatCurrency } from './lib/format-currency';
 import { useUser } from './contexts/user-context';
 
@@ -67,9 +74,26 @@ export function App() {
           </div>
         </div>
 
-          <div className='flex flex-col items-center justify-center'>
+        <Tabs defaultValue="expenses" className="">
+          <TabsList className="grid max-w-6xl grid-cols-3 mx-auto">
+            <TabsTrigger value="expenses">Expenses</TabsTrigger>
+            <TabsTrigger value="investments">Investments</TabsTrigger>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+          </TabsList>
+          <TabsContent value="expenses">
             <Transactions />
-          </div>
+          </TabsContent>
+          <TabsContent value="investments">
+            <div className='flex flex-col items-center justify-center mx-auto max-w-7xl h-96'>
+              <h2 className='font-mono text-2xl font-bold'>Investments tab comming soon...</h2>
+            </div>
+          </TabsContent>
+          <TabsContent value="overview">
+            <div className='flex flex-col items-center justify-center mx-auto max-w-7xl h-96'>
+              <h2 className='font-mono text-2xl font-bold'>Overview tab comming soon...</h2>
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   )

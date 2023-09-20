@@ -15,8 +15,6 @@ export function UserProvider ({ children }: { children: React.ReactNode }) {
       const info: User = await getUserInfo()
       
       setUser(info)
-
-      console.log(info)
     }
 
     fetchUserInfo()

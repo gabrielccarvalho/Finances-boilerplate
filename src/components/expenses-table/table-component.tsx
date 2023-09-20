@@ -8,7 +8,7 @@ export function Transactions() {
   const { user } = useUser()
 
   return (
-    <div className="container mx-auto max-w-7xl">
+    <div className="container">
       {user.bills && (
         <DataTable columns={columns as unknown as ColumnDef<Bill, unknown>[]} data={user.bills} />
       )}
