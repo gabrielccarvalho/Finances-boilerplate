@@ -53,6 +53,7 @@ export function AddBill() {
     update({
       ...user,
       expenses: user.expenses + amount,
+      balance: user.balance - amount,
       bills: response
     })
   }
