@@ -9,14 +9,19 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 
-import { Moon, Sun, ArrowDown, ArrowUp, PiggyBank } from 'lucide-react'
+import { Moon, Sun, PiggyBank, MoveDown, MoveUp } from 'lucide-react'
 import { Transactions } from './components/expenses-table/table-component';
 import { formatCurrency } from './lib/format-currency';
 import { useUser } from './contexts/user-context';
+import { Investments } from './components/investments-table/table-component';
 
 export function App() {
   const { setTheme, theme } = useTheme()
   const { user } = useUser()
+
+  const percentageOfIncome = Math.floor((user.expenses / user.income) * 100)
+
+  const alarmColor = percentageOfIncome > 60 ? 'text-red-500' : percentageOfIncome > 40 ? 'text-yellow-600' : 'text-emerald-500'
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -52,28 +57,28 @@ export function App() {
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
               <div className='flex flex-row justify-between'>
                 <h3 className='text-sm text-muted-foreground'>Income</h3>
-                <ArrowDown className='w-5 h-5 text-emerald-500' />
+                <MoveDown strokeWidth={1.5} className='w-7 h-7 text-emerald-500' />
               </div>
               <p className='font-sans text-2xl font-bold'>{formatCurrency(user.income)}</p>
-              <span className='text-xs text-muted-foreground'>+0.5% from last month</span>
+              <span className='text-sm text-muted-foreground'>+0.5% from last month</span>
           </div>
 
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
             <div className='flex flex-row justify-between'>
               <h3 className='text-sm text-muted-foreground'>Invested</h3>
-              <PiggyBank className='w-5 h-5 text-yellow-500' />
+              <PiggyBank strokeWidth={1.5} className='text-yellow-500 w-7 h-7' />
             </div>
             <p className='font-sans text-2xl font-bold'>{formatCurrency(user.invested)}</p>
-            <span className='text-xs text-muted-foreground'>+4.5% from last month</span>
+            <span className='text-sm text-muted-foreground'>+4.5% from last month</span>
           </div>
 
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
             <div className='flex flex-row justify-between'>
               <h3 className='text-sm text-muted-foreground'>Expenses</h3>
-              <ArrowUp className='w-5 h-5 text-red-500' />
+              <MoveUp strokeWidth={1.5} className='text-red-500 w-7 h-7' />
             </div>
             <p className='font-sans text-2xl font-bold'>{formatCurrency(user.expenses)}</p>
-            <span className='text-xs text-muted-foreground'>-12.5% from last month</span>
+            <span className={`text-sm ${alarmColor}`}>{percentageOfIncome}% of your current income.</span>
           </div>
         </div>
 
@@ -87,9 +92,7 @@ export function App() {
             <Transactions />
           </TabsContent>
           <TabsContent value="investments">
-            <div className='flex flex-col items-center justify-center mx-auto max-w-7xl h-96'>
-              <h2 className='font-mono text-2xl font-bold'>Investments tab comming soon...</h2>
-            </div>
+            <Investments />
           </TabsContent>
           <TabsContent value="overview">
             <div className='flex flex-col items-center justify-center mx-auto max-w-7xl h-96'>

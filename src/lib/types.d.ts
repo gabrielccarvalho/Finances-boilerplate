@@ -15,6 +15,7 @@ export type Investment = {
   id: string
   name: string
   amount: number
+  security: string
   date: string
   user: User
   userId: string
