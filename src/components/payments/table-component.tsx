@@ -2,16 +2,15 @@ import { ColumnDef } from '@tanstack/react-table'
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { Bill } from '@/lib/types'
-import { getBills } from '@/api/bills'
-
-const bills = await getBills()
+import { useUser } from '@/contexts/user-context'
 
 export function Transactions() {
+  const { user } = useUser()
 
   return (
     <div className="container mx-auto max-w-7xl">
-      {bills && (
-        <DataTable columns={columns as unknown as ColumnDef<Bill, unknown>[]} data={bills} />
+      {user.bills && (
+        <DataTable columns={columns as unknown as ColumnDef<Bill, unknown>[]} data={user.bills} />
       )}
     </div>
   )

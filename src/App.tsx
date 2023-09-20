@@ -4,14 +4,12 @@ import { Separator } from '@/components/ui/separator';
 
 import { Moon, Sun, Award, ArrowDown, ArrowUp } from 'lucide-react'
 import { Transactions } from './components/payments/table-component';
-import { User } from './lib/types';
-import { getUserInfo } from './api/user';
 import { formatCurrency } from './lib/format-currency';
-
-const userInfo: User = await getUserInfo()
+import { useUser } from './contexts/user-context';
 
 export function App() {
   const { setTheme, theme } = useTheme()
+  const { user } = useUser()
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -35,7 +33,7 @@ export function App() {
         <div className='flex flex-col w-full shadow-md bg-muted'>
           <div className='flex flex-col justify-between w-full h-32 p-6 mx-auto max-w-7xl'>
             <h3 className='text-sm text-muted-foreground'>Balance</h3>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.balance)}</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(user.balance)}</p>
             <span className='text-xs text-muted-foreground'>+12.5% from last month</span>
           </div>
         </div>
@@ -46,7 +44,7 @@ export function App() {
                 <h3 className='text-sm text-muted-foreground'>Income</h3>
                 <ArrowDown className='w-5 h-5 text-emerald-500' />
               </div>
-              <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.income)}</p>
+              <p className='font-sans text-2xl font-bold'>{formatCurrency(user.income)}</p>
               <span className='text-xs text-muted-foreground'>+0.5% from last month</span>
           </div>
 
@@ -55,7 +53,7 @@ export function App() {
               <h3 className='text-sm text-muted-foreground'>Invested</h3>
               <Award className='w-5 h-5 text-yellow-500' />
             </div>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.invested)}</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(user.invested)}</p>
             <span className='text-xs text-muted-foreground'>+4.5% from last month</span>
           </div>
 
@@ -64,7 +62,7 @@ export function App() {
               <h3 className='text-sm text-muted-foreground'>Expenses</h3>
               <ArrowUp className='w-5 h-5 text-red-500' />
             </div>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(userInfo?.expenses)}</p>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(user.expenses)}</p>
             <span className='text-xs text-muted-foreground'>-12.5% from last month</span>
           </div>
         </div>

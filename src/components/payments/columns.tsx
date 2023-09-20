@@ -15,6 +15,7 @@ import {
 import { DataTableColumnHeader } from './column-header'
 
 import { Bill } from "@/lib/types"
+import { deleteBill } from '@/api/bills'
 
 export const columns: ColumnDef<Bill>[] = [
   {
@@ -105,6 +106,10 @@ export const columns: ColumnDef<Bill>[] = [
     cell: ({ row }) => {
       const payment = row.original
 
+      async function handleDelete() {
+        await deleteBill(payment.id)
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -125,7 +130,10 @@ export const columns: ColumnDef<Bill>[] = [
               <RefreshCcw className="w-4 h-4 mr-2" />
               Update Status
             </DropdownMenuItem>
-            <DropdownMenuItem className='focus:text-red-500'>
+            <DropdownMenuItem
+              onClick={handleDelete}
+              className='focus:text-red-500'
+            >
               <Trash className="w-4 h-4 mr-2" />
               Delete
             </DropdownMenuItem>
