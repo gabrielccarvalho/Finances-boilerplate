@@ -25,7 +25,7 @@ import { addBill } from '@/api/bills'
 export function AddBill() {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState(0)
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
   const [status, setStatus] = useState('Pending')
   const { user, update } = useUser()
 
@@ -96,7 +96,6 @@ export function AddBill() {
               <Input
                 id="amount"
                 type='number'
-                placeholder='eg. 11.200,00'
                 value={amount}
                 onChange={e => setAmount(parseFloat(e.target.value))}
                 className="col-span-3"
@@ -120,7 +119,7 @@ export function AddBill() {
               </Label>
               <Select onValueChange={value => setStatus(value)}>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue id='status' defaultValue={status} />
+                  <SelectValue id='status' defaultValue={status} placeholder='Pending' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={'Pending'}>Pending</SelectItem>

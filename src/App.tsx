@@ -2,7 +2,7 @@ import { useTheme } from '@/components/theme-provider';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-import { Moon, Sun, Award, ArrowDown, ArrowUp } from 'lucide-react'
+import { Moon, Sun, ArrowDown, ArrowUp, PiggyBank } from 'lucide-react'
 import { Transactions } from './components/payments/table-component';
 import { formatCurrency } from './lib/format-currency';
 import { useUser } from './contexts/user-context';
@@ -33,8 +33,8 @@ export function App() {
         <div className='flex flex-col w-full shadow-md bg-muted'>
           <div className='flex flex-col justify-between w-full h-32 p-6 mx-auto max-w-7xl'>
             <h3 className='text-sm text-muted-foreground'>Balance</h3>
-            <p className='font-sans text-2xl font-bold'>{formatCurrency(user.balance)}</p>
-            <span className='text-xs text-muted-foreground'>+12.5% from last month</span>
+            <p className='font-sans text-2xl font-bold'>{formatCurrency(user.income - user.expenses)}</p>
+            <span className='text-sm text-emerald-500'>{formatCurrency(user.balance)} with the savings!</span>
           </div>
         </div>
 
@@ -51,7 +51,7 @@ export function App() {
           <div className='flex flex-col justify-between w-1/3 h-32 p-4 border shadow-md rounded-xl'>
             <div className='flex flex-row justify-between'>
               <h3 className='text-sm text-muted-foreground'>Invested</h3>
-              <Award className='w-5 h-5 text-yellow-500' />
+              <PiggyBank className='w-5 h-5 text-yellow-500' />
             </div>
             <p className='font-sans text-2xl font-bold'>{formatCurrency(user.invested)}</p>
             <span className='text-xs text-muted-foreground'>+4.5% from last month</span>
