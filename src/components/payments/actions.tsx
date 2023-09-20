@@ -22,6 +22,7 @@ export function Actions({ payment }: { payment: Bill }) {
 
     update({
       ...user,
+      expenses: user.expenses - payment.amount,
       bills: response
     })
   }
