@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-export const userId = 'a18e7d47-bdba-4271-a6a8-23d4fec57d92'
+export const userId = '972e14eb-b47e-4d47-8fca-8a697f680b18'
 
 export async function getUserInfo(){
   return api.get(`/info/${userId}`).then(response => {

@@ -25,8 +25,10 @@ import { addInvestment } from '@/api/investments'
 export function AddInvestment() {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState(0)
+  const [monthAmount, setMonthAmount] = useState(0)
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
   const [security, setSecurity] = useState('medium')
+  const [rentability, setRentability] = useState(0)
   const { user, update } = useUser()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -35,14 +37,17 @@ export function AddInvestment() {
     const response = await addInvestment({
       name,
       amount,
+      monthAmount,
       date: new Date(date).toISOString(),
       security,
+      rentability,
     })
 
     update({
       ...user,
-      invested: user.invested + amount,
+      invested: user.invested + amount + monthAmount,
       balance: user.balance + amount,
+      expenses: user.expenses + monthAmount,
       investments: response
     })
   }
@@ -57,7 +62,7 @@ export function AddInvestment() {
           <Plus className='w-5 h-5' />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="lg:max-w-xl sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Add a new investment</DialogTitle>
@@ -80,7 +85,7 @@ export function AddInvestment() {
             </div>
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="amount" className="text-right">
-                amount
+                Initial Invested
               </Label>
               <Input
                 id="amount"
@@ -91,14 +96,26 @@ export function AddInvestment() {
               />
             </div>
             <div className="grid items-center grid-cols-4 gap-4">
-              <Label htmlFor="date" className="text-right">
-                date
+              <Label htmlFor="monthAmount" className="text-right">
+                Month investment
               </Label>
               <Input
-                id="date"
-                type='date'
-                value={date}
-                onChange={e => setDate(e.target.value)}
+                id="monthAmount"
+                type='number'
+                value={monthAmount}
+                onChange={e => setMonthAmount(parseFloat(e.target.value))}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid items-center grid-cols-4 gap-4">
+              <Label htmlFor="rentability" className="text-right">
+                Rentability
+              </Label>
+              <Input
+                id="rentability"
+                type='number'
+                value={rentability}
+                onChange={e => setRentability(parseFloat(e.target.value))}
                 className="col-span-3"
               />
             </div>
@@ -116,6 +133,18 @@ export function AddInvestment() {
                   <SelectItem value={'risky'}>Risky</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div className="grid items-center grid-cols-4 gap-4">
+              <Label htmlFor="date" className="text-right">
+                date
+              </Label>
+              <Input
+                id="date"
+                type='date'
+                value={date}
+                onChange={e => setDate(e.target.value)}
+                className="col-span-3"
+              />
             </div>
           </div>
           <DialogFooter>

@@ -67,7 +67,7 @@ export const columns: ColumnDef<Bill>[] = [
   {
     accessorKey: "amount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Amount" />
+      <DataTableColumnHeader column={column} title="Cost" />
     ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))

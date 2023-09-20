@@ -10,19 +10,25 @@ export async function deleteInvestment(id: string) {
 export async function addInvestment({
   name,
   amount,
+  monthAmount,
   date,
   security,
+  rentability,
 }: {
   name: string,
   amount: number,
+  monthAmount: number,
   date: string,
   security: string,
+  rentability: number
 }) {
   return api.post(`/investments/${userId}`, {
     name,
     amount,
+    monthAmount,
     date,
-    security
+    security,
+    rentability
   }).then(response => {
     return response.data
   })

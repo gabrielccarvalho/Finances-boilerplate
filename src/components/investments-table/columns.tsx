@@ -6,6 +6,7 @@ import { DataTableColumnHeader } from './column-header'
 
 import { Investment } from "@/lib/types"
 import { Actions } from './actions'
+import { calculateTotalInvestment } from '@/lib/calculate-investment'
 
 export const columns: ColumnDef<Investment>[] = [
   {
@@ -66,12 +67,59 @@ export const columns: ColumnDef<Investment>[] = [
     }
   },
   {
+    accessorKey: "rentability",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Rentability" />
+    ),
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("rentability"))
+      return <div className="font-medium">{amount}%</div>
+    },
+  },
+  {
+    accessorKey: "monthAmount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Invested this month" />
+    ),
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("monthAmount"))
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "BRL",
+      }).format(amount)
+      return <div className="font-medium">{formatted}</div>
+    },
+  },
+  {
     accessorKey: "amount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Amount" />
+      <DataTableColumnHeader column={column} title="Initial Investment" />
     ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "BRL",
+      }).format(amount)
+      return <div className="font-medium">{formatted}</div>
+    },
+  },
+  {
+    accessorKey: "totalAmount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total Accumulated" />
+    ),
+    cell: ({ row }) => {
+      const today = new Date();
+      const date = new Date(row.getValue("date"))
+      const timeDiff = Math.abs(today.getTime() - date.getTime());
+      const diffInDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      const amount = parseFloat(calculateTotalInvestment(
+        parseFloat(row.getValue("amount")) + parseFloat(row.getValue('monthAmount')),
+        parseFloat(row.getValue("rentability")),
+        diffInDays
+        ))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "BRL",

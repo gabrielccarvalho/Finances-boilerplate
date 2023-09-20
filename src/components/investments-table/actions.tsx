@@ -24,6 +24,7 @@ export function Actions({ invest }: { invest: Investment }) {
       ...user,
       invested: user.invested - invest.amount,
       balance: user.balance - invest.amount,
+      expenses: user.expenses - invest.monthAmount,
       investments: response
     })
   }
