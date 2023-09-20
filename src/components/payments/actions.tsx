@@ -1,4 +1,4 @@
-import { MoreHorizontal, Trash, RefreshCcw, CheckCheck, AlertTriangle, AlertCircle } from "lucide-react"
+import { MoreHorizontal, Trash, CheckCheck, AlertTriangle, AlertCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
