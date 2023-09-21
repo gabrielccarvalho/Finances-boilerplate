@@ -110,16 +110,14 @@ export const columns: ColumnDef<Investment>[] = [
       <DataTableColumnHeader column={column} title="Total Accumulated" />
     ),
     cell: ({ row }) => {
-      const today = new Date();
-      const date = new Date(row.getValue("date"))
-      const timeDiff = Math.abs(today.getTime() - date.getTime());
-      const diffInDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      const diffInDays = Math.ceil(Math.abs(new Date().getTime() - new Date(row.getValue("date")).getTime()) / (1000 * 3600 * 24));
 
       const amount = parseFloat(calculateTotalInvestment(
-        parseFloat(row.getValue("amount")) + parseFloat(row.getValue('monthAmount')),
+        parseFloat(row.getValue("amount")),
         parseFloat(row.getValue("rentability")),
         diffInDays
-        ))
+        )) + parseFloat(row.getValue("monthAmount"))
+
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "BRL",

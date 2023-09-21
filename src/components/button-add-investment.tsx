@@ -21,6 +21,7 @@ import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useUser } from '@/contexts/user-context'
 import { addInvestment } from '@/api/investments'
+import { calculateTotalInvestment } from '@/lib/calculate-investment'
 
 export function AddInvestment() {
   const [name, setName] = useState('')
@@ -33,6 +34,11 @@ export function AddInvestment() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const totalAmount = parseFloat(calculateTotalInvestment(
+      amount,
+      rentability,
+      Math.ceil(Math.abs(new Date().getTime() - new Date(date).getTime()) / (1000 * 3600 * 24))
+    ))
 
     const response = await addInvestment({
       name,
@@ -45,7 +51,7 @@ export function AddInvestment() {
 
     update({
       ...user,
-      invested: user.invested + amount + monthAmount,
+      invested: user.invested + totalAmount + monthAmount,
       balance: user.balance + amount,
       expenses: user.expenses + monthAmount,
       investments: response

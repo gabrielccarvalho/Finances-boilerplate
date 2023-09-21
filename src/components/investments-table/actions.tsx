@@ -13,6 +13,7 @@ import {
 import { useUser } from '@/contexts/user-context'
 import { Investment } from '@/lib/types'
 import { deleteInvestment } from '@/api/investments'
+import { calculateTotalInvestment } from '@/lib/calculate-investment'
 
 export function Actions({ invest }: { invest: Investment }) {
   const { user, update } = useUser()
@@ -20,9 +21,15 @@ export function Actions({ invest }: { invest: Investment }) {
   async function handleDelete() {
     const response = await deleteInvestment(invest.id)
 
+    const totalAmount = parseFloat(calculateTotalInvestment(
+      invest.amount,
+      invest.rentability,
+      Math.ceil(Math.abs(new Date().getTime() - new Date(invest.date).getTime()) / (1000 * 3600 * 24))
+    ))
+
     update({
       ...user,
-      invested: user.invested - invest.amount,
+      invested: user.invested - totalAmount - invest.monthAmount,
       balance: user.balance - invest.amount,
       expenses: user.expenses - invest.monthAmount,
       investments: response

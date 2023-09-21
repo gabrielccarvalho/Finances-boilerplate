@@ -17,7 +17,7 @@ export type Investment = {
   amount: number
   monthAmount: number
   security: string
-  rentability: string
+  rentability: number
   date: string
   user: User
   userId: string
